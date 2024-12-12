@@ -10,6 +10,7 @@
 std::ostream &operator<<(std::ostream &output, const Fixed &number) {
   int raw_bits = number.getRawBits();
   int scale_factor = number.getScaleFactor();
+
   output << (raw_bits / scale_factor) +
                 static_cast<float>(raw_bits % scale_factor) / scale_factor;
   return (output);
