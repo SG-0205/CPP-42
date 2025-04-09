@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PB.hpp                                             :+:      :+:    :+:   */
+/*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgoldenb <sgoldenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 18:49:49 by sgoldenb          #+#    #+#             */
-/*   Updated: 2024/11/01 18:11:12 by sgoldenb         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:28:25 by sgoldenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PB_H
-# define PB_H
+#pragma once
 
-# include "PhoneBook.hpp"
-# include "Contact.hpp"
-# include <stdlib.h>
+#include "PhoneBook.hpp"
+#include <stdlib.h>
 
-bool			is_numbers(std::string input);
-bool			valid_phone_number(std::string phone_number);
-std::string		*ask_contact_details(void);
-void			search_contact_in_book(PhoneBook book, char *input_buff);
-
-#endif
+namespace utils {
+bool is_numbers(const std::string &input);
+bool valid_phone_number(const std::string &phone_number);
+std::string *ask_contact_details(void);
+void search_contact_in_book(const PhoneBook &book);
+} // namespace utils
