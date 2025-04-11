@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Incrementations.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgoldenb <sgoldenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 13:04:42 by sgoldenb          #+#    #+#             */
-/*   Updated: 2025/04/11 15:22:33 by sgoldenb         ###   ########.fr       */
+/*   Created: 2025/04/11 15:24:23 by sgoldenb          #+#    #+#             */
+/*   Updated: 2025/04/11 15:31:28 by sgoldenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
-#include <iostream>
+#include <stdexcept>
 
-int main(void) {
-  Fixed a;
-  Fixed const b(Fixed(5.05f) * Fixed(2));
+Fixed Fixed::operator++(int) {
+  Fixed pre_incr(*this);
 
-  std::cout << a << std::endl;
-  std::cout << ++a << std::endl;
-  std::cout << a << std::endl;
-  std::cout << a++ << std::endl;
-  std::cout << a << std::endl;
-  std::cout << b << std::endl;
-  std::cout << Fixed::max(a, b) << std::endl;
-
-  return 0;
+  this->_value++;
+  return (pre_incr);
 }
+
+Fixed Fixed::operator++(void) {
+  this->_value++;
+  return (*this);
+}
+
+Fixed Fixed::operator--(int) {
+  Fixed pre_decr(*this);
+
+  this->_value--;
+  return (pre_decr);
+}
+
+Fixed Fixed::operator--(void) {
+  this->_value--;
+  return (*this);
+}
+
+// TODO verifier incrementations

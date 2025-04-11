@@ -1,59 +1,57 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Fixed.hpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgoldenb <sgoldenb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/11 12:51:25 by sgoldenb          #+#    #+#             */
+/*   Updated: 2025/04/11 15:23:28 by sgoldenb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
 
 #include <ostream>
 class Fixed {
+private:
+  int _value;
+  static const int _lenght;
+
 public:
-  Fixed();
-  Fixed(const int to_convert);
-  Fixed(const float to_convert);
+  Fixed(void);
+  Fixed(const int to_store);
+  Fixed(const float to_store);
   Fixed(const Fixed &other);
+  Fixed &operator=(const Fixed &other);
+  ~Fixed(void);
 
-  void operator=(Fixed const &other);
+  bool operator>(const Fixed &other) const;
+  bool operator<(const Fixed &other) const;
+  bool operator>=(const Fixed &other) const;
+  bool operator<=(const Fixed &other) const;
+  bool operator==(const Fixed &other) const;
+  bool operator!=(const Fixed &other) const;
 
-  bool operator>(const Fixed &n2) const;
-  bool operator<(const Fixed &n2) const;
-  bool operator>=(const Fixed &n2) const;
-  bool operator<=(const Fixed &n2) const;
-  bool operator==(const Fixed &n2) const;
-  bool operator!=(const Fixed &n2) const;
+  Fixed operator+(const Fixed &other) const;
+  Fixed operator-(const Fixed &other) const;
+  Fixed operator*(const Fixed &other) const;
+  Fixed operator/(const Fixed &other) const;
 
-  int operator+(const Fixed &n2);
-  int operator-(const Fixed &n2);
-  int operator*(const Fixed &n2);
-  int operator/(const Fixed &n2);
-
-  Fixed &operator++(void);
-  Fixed &operator--(void);
+  Fixed operator++(void);
   Fixed operator++(int);
+  Fixed operator--(void);
   Fixed operator--(int);
+
+  static const Fixed &min(const Fixed &f1, const Fixed &f2);
+  static Fixed &min(Fixed &f1, Fixed &f2);
+  static const Fixed &max(const Fixed &f1, const Fixed &f2);
+  static Fixed &max(Fixed &f1, Fixed &f2);
 
   int getRawBits(void) const;
   float toFloat(void) const;
   int toInt(void) const;
-  void setRawBits(const int raw);
-  int getScaleFactor(void) const;
-
-  static Fixed &min(Fixed &n1, Fixed &n2);
-  static const Fixed &min(const Fixed &n1, const Fixed &n2);
-  static Fixed &max(Fixed &n1, Fixed &n2);
-  static const Fixed &max(const Fixed &n1, const Fixed &n2);
-
-  ~Fixed();
-
-private:
-  int _value;
-  static const int _bit_scale;
-
-  enum log_type {
-    DEF_CONSTRUCTOR,
-    INT_CONSTRUCTOR,
-    FLOAT_CONSTRUCTOR,
-    COPY_CONSTRUCTOR,
-    COPY_ASSIGNEMENT,
-    DESTRUCTOR
-  };
-  void _writeLog(log_type type) const;
-  int _scale_factor(void) const;
+  void setRawBits(int const raw);
 };
 
-std::ostream &operator<<(std::ostream &output, const Fixed &number);
+std::ostream &operator<<(std::ostream &outstream, const Fixed &fixed_nb);

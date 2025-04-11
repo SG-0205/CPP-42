@@ -1,104 +1,71 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Fixed.cpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgoldenb <sgoldenb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/11 12:56:01 by sgoldenb          #+#    #+#             */
+/*   Updated: 2025/04/11 13:11:11 by sgoldenb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Fixed.hpp"
-#include <climits>
 #include <cmath>
-#include <cstdlib>
-#include <iomanip>
 #include <iostream>
 #include <ostream>
-#include <stdexcept>
 
-std::ostream &operator<<(std::ostream &output, const Fixed &number) {
-  int raw_bits = number.getRawBits();
-  int scale_factor = number.getScaleFactor();
+std::ostream &operator<<(std::ostream &outstream, const Fixed &fixed_nb) {
+  outstream << fixed_nb.toFloat();
 
-  output << (raw_bits / scale_factor) +
-                static_cast<float>(raw_bits % scale_factor) / scale_factor;
-  return (output);
+  return (outstream);
 }
 
-const int Fixed::_bit_scale = 8;
+const int Fixed::_lenght = 8;
 
-void Fixed::_writeLog(Fixed::log_type type) const {
-  switch (type) {
-  case (DEF_CONSTRUCTOR):
-    std::cout << "Default constructor called";
-    break;
-  case (INT_CONSTRUCTOR):
-    std::cout << "Int constructor called";
-    break;
-  case (FLOAT_CONSTRUCTOR):
-    std::cout << "Float constructor called";
-    break;
-  case (COPY_CONSTRUCTOR):
-    std::cout << "Copy constructor called";
-    break;
-  case (COPY_ASSIGNEMENT):
-    std::cout << "Copy assignement operator called";
-    break;
-  case (DESTRUCTOR):
-    std::cout << "Desctructor called";
-    break;
-  default:
-    return;
-  }
-  std::cout << std::endl;
+Fixed::Fixed(void) : _value(0) {
+  std::cout << "Default constructor called" << std::endl;
 }
 
-int Fixed::_scale_factor(void) const {
-  int result = 2;
-  int limit = _bit_scale;
-
-  while (limit-- > 0)
-    result *= 2;
-
-  return (result);
+Fixed::Fixed(const int to_store) : _value(to_store << _lenght) {
+  std::cout << "Int constructor called" << std::endl;
 }
 
-int Fixed::getScaleFactor(void) const { return (_scale_factor()); }
-
-Fixed::Fixed() {
-  _value = 0;
-  _writeLog(DEF_CONSTRUCTOR);
+Fixed::Fixed(const float to_store)
+    : _value(static_cast<int>(roundf(to_store * (1 << _lenght)))) {
+  std::cout << "Float constructor called" << std::endl;
 }
 
-Fixed::Fixed(const int to_convert) {
-  if (to_convert * _scale_factor() >= INT_MAX ||
-      to_convert * _scale_factor() <= INT_MIN)
-    throw std::invalid_argument("Fixed(int to_convert): to_convert would "
-                                "overflow/underflow if converted.");
-  else
-    _value = _scale_factor() * to_convert;
-  _writeLog(INT_CONSTRUCTOR);
+Fixed::Fixed(const Fixed &other) {
+  std::cout << "Copy constructor called" << std::endl;
+
+  *this = other;
 }
 
-Fixed::Fixed(const float to_convert) {
-  if (to_convert * _scale_factor() >= INT_MAX ||
-      to_convert * _scale_factor() <= INT_MIN)
-    throw std::invalid_argument("Fixed(float to_convert): to_convert would "
-                                "overflow/underflow if converted.");
-  else
-    _value = _scale_factor() * to_convert;
-  _writeLog(FLOAT_CONSTRUCTOR);
+Fixed &Fixed::operator=(const Fixed &other) {
+  std::cout << "Copy assignement operator called" << std::endl;
+  if (this == &other)
+    return (*this);
+
+  this->_value = other.getRawBits();
+
+  return (*this);
 }
 
-Fixed::Fixed(Fixed const &other) {
-  if (this != &other) {
-    _writeLog(COPY_CONSTRUCTOR);
-    this->operator=(other);
-  }
+int Fixed::getRawBits(void) const {
+  std::cout << "getRawBits member function called" << std::endl;
+  return (_value);
 }
 
-void Fixed::operator=(const Fixed &other) {
-  _writeLog(COPY_ASSIGNEMENT);
-  setRawBits(other.getRawBits());
+void Fixed::setRawBits(int const raw) {
+  std::cout << "setRawBits member function called" << std::endl;
+  _value = raw;
 }
 
-float Fixed::toFloat(void) const { return (_value / _scale_factor()); }
+float Fixed::toFloat(void) const {
+  return (static_cast<float>(_value) / (1 << _lenght));
+}
 
-int Fixed::toInt(void) const { return (_value / _scale_factor()); }
+int Fixed::toInt(void) const { return (_value >> _lenght); }
 
-int Fixed::getRawBits(void) const { return (_value); }
-
-void Fixed::setRawBits(const int raw) { _value = raw; }
-
-Fixed::~Fixed() { _writeLog(DESTRUCTOR); }
+Fixed::~Fixed(void) { std::cout << "Destructor called" << std::endl; }

@@ -1,37 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Fixed.hpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgoldenb <sgoldenb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/11 12:51:25 by sgoldenb          #+#    #+#             */
+/*   Updated: 2025/04/11 13:09:40 by sgoldenb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
 
 #include <ostream>
 class Fixed {
-public:
-  Fixed();
-  Fixed(const int to_convert);
-  Fixed(const float to_convert);
-  Fixed(const Fixed &other);
+private:
+  int _value;
+  static const int _lenght;
 
-  void operator=(Fixed const &other);
+public:
+  Fixed(void);
+  Fixed(const int to_store);
+  Fixed(const float to_store);
+  Fixed(const Fixed &other);
+  Fixed &operator=(const Fixed &other);
+  ~Fixed(void);
 
   int getRawBits(void) const;
   float toFloat(void) const;
   int toInt(void) const;
-  void setRawBits(const int raw);
-  int getScaleFactor(void) const;
-
-  ~Fixed();
-
-private:
-  int _value;
-  static const int _bit_scale;
-
-  enum log_type {
-    DEF_CONSTRUCTOR,
-    INT_CONSTRUCTOR,
-    FLOAT_CONSTRUCTOR,
-    COPY_CONSTRUCTOR,
-    COPY_ASSIGNEMENT,
-    DESTRUCTOR
-  };
-  void _writeLog(log_type type) const;
-  int _scale_factor(void) const;
+  void setRawBits(int const raw);
 };
 
-std::ostream &operator<<(std::ostream &output, const Fixed &number);
+std::ostream &operator<<(std::ostream &outstream, const Fixed &fixed_nb);

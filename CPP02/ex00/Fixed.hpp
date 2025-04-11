@@ -1,27 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Fixed.hpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgoldenb <sgoldenb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/11 12:51:25 by sgoldenb          #+#    #+#             */
+/*   Updated: 2025/04/11 13:09:40 by sgoldenb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
 
 class Fixed {
-public:
-  Fixed();
-  Fixed(const Fixed &other);
-  void operator=(Fixed const &other);
-
-  int getRawBits(void) const;
-  void setRawBits(const int raw);
-
-  ~Fixed();
-
 private:
   int _value;
-  static const int _decimals_bit_count;
+  static const int _lenght;
 
-  enum log_type {
-    DEF_CONSTRUCTOR,
-    COPY_CONSTRUCTOR,
-    COPY_ASSIGNEMENT,
-    GETRB,
-    SETRB,
-    DESTRUCTOR
-  };
-  void _writeLog(log_type type) const;
+public:
+  Fixed(void);
+  Fixed(const Fixed &other);
+  Fixed &operator=(const Fixed &other);
+  ~Fixed(void);
+
+  int getRawBits(void) const;
+  void setRawBits(int const raw);
 };
