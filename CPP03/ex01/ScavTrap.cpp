@@ -1,41 +1,49 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ScavTrap.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgoldenb <sgoldenb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/11 21:35:05 by sgoldenb          #+#    #+#             */
+/*   Updated: 2025/04/11 21:48:09 by sgoldenb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ScavTrap.hpp"
 #include "ClapTrap.hpp"
+#include <iostream>
 
 ScavTrap::ScavTrap(const std::string &name)
-    : ClapTrap(name), _name(name), _hit_points(100), _energy_points(50),
-      _attack_damage(20) {
-  _message("new ScavTrap named " + name);
+    : ClapTrap(name), _name(ClapTrap::_name),
+      _hit_points(ClapTrap::_hit_points),
+      _energy_points(ClapTrap::_energy_points),
+      _attack_damage(ClapTrap::_attack_damage) {
+  std::cout << "ScavTrap " << name << " created." << std::endl;
+
+  _hit_points = 100;
+  _energy_points = 50;
+  _attack_damage = 20;
 }
 
 ScavTrap::ScavTrap(const ScavTrap &other)
     : ClapTrap(other), _name(other._name), _hit_points(other._hit_points),
       _energy_points(other._energy_points),
       _attack_damage(other._attack_damage) {
-  _message("new ScavTrap with " + other._getName() + " as base.");
+  std::cout << "[SCAV] Copy constructor called with " << other._name
+            << std::endl;
 }
 
 ScavTrap &ScavTrap::operator=(const ScavTrap &other) {
-  _message("ScavTrap " + _getName() + " is copying " + other._getName());
+  if (this == &other)
+    return (*this);
 
-  this->_hit_points = other._getPoints(HIT, &other);
-  this->_attack_damage = other._getPoints(ATTACK_DMG, &other);
-  this->_energy_points = other._getPoints(ENERGY, &other);
-  this->_name = other._getName();
+  this->_name = other._name;
+  this->_hit_points = other._hit_points;
+  this->_energy_points = other._energy_points;
+  this->_attack_damage = other._attack_damage;
 
-  return ((*this));
+  return (*this);
 }
 
-void ScavTrap::guardGate(void) {
-  if (_getPoints(ENERGY, this) > 0 && _getPoints(HIT, this) > 0) {
-    _message(_getName() + " is keeping the gate.");
-  } else if (_getPoints(HIT, this) < 1) {
-    _message(_getName() + " is out of hit points and couldn\'t keep the gate.");
-  } else if (_getPoints(ENERGY, this) < 1) {
-    _message(_getName() +
-             " is out of energy points and couldn't keep the gate.");
-  }
-}
-
-ScavTrap::~ScavTrap(void) {
-  _message("ScavTrap " + _getName(), "has been destroyed.");
-}
+// TODO VERIFIER COPIE OBJET CLAPTRAP;
