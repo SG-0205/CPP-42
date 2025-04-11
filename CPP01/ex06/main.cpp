@@ -41,10 +41,30 @@ int main(int argc, char **argv) {
 
   Harl harl;
 
-  // TODO relire le suejt pour message d'usage et renseigner sur le fallthrough;
   switch (argv[1][0]) {
-  case ('D'): {
-    harl.complain()
+  case ('D'):
+    std::cout << "[FILTER: DEBUG]\n";
+    harl.complain("DEBUG");
+    harl.complain("INFO");
+    harl.complain("WARNING");
+    harl.complain("ERROR");
+    break;
+  case ('I'):
+    std::cout << "[FILTER: INFO]\n";
+    harl.complain("INFO");
+    harl.complain("WARNING");
+    harl.complain("ERROR");
+    break;
+  case ('W'):
+    std::cout << "[FILTER: WARNING]\n";
+    harl.complain("WARNING");
+    harl.complain("ERROR");
+    break;
+  case ('E'):
+    std::cout << "[FILTER: ERROR]\n";
+    harl.complain("ERROR");
+    break;
   }
-  }
+
+  return (0);
 }
