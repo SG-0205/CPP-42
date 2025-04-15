@@ -6,7 +6,7 @@
 /*   By: sgoldenb <sgoldenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:46:59 by sgoldenb          #+#    #+#             */
-/*   Updated: 2025/04/11 21:26:14 by sgoldenb         ###   ########.fr       */
+/*   Updated: 2025/04/15 10:44:51 by sgoldenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ bool ClapTrap::_isReady(void) const {
     return (true);
   else
     return (false);
+}
+
+ClapTrap::ClapTrap(void)
+    : _name("Default"), _hit_points(10), _energy_points(10), _attack_damage(0) {
+  std::cout << "Default ClapTrap constructor called." << std::endl;
 }
 
 ClapTrap::ClapTrap(const std::string &name)
@@ -174,4 +179,8 @@ void ClapTrap::printState(void) {
             << "ENERGY: " << energy_points << '\n'
             << "DAMAGE POINTS: " << attack_damage << '\n'
             << std::endl;
+}
+
+ClapTrap::~ClapTrap(void) {
+  std::cout << "ClapTrap " << _getName() << " has been destroyed." << std::endl;
 }

@@ -14,14 +14,6 @@
 #include "ClapTrap.hpp"
 #include <iostream>
 
-ScavTrap::ScavTrap(void) : ClapTrap() {
-  std::cout << "[SCAV] Default constructor called." << std::endl;
-
-  _hit_points = 100;
-  _energy_points = 50;
-  _attack_damage = 20;
-}
-
 ScavTrap::ScavTrap(const std::string &name) : ClapTrap(name) {
   std::cout << "ScavTrap " << name << " created." << std::endl;
 
@@ -65,7 +57,7 @@ void ScavTrap::attack(const std::string &target) {
     std::cout << "ScavTrap " << name << " is out of energy and couldn't attack "
               << target;
   else {
-    std::cout << "ScavTrap " << name << " attacks " << target << ", causing "
+    std::cout << "ScavTrap " << name << " attacks " << target << ", causing"
               << attack_damage << " damage points.";
     _decrementPoints(NRJ);
   }

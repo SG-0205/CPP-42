@@ -6,7 +6,7 @@
 /*   By: sgoldenb <sgoldenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:28:33 by sgoldenb          #+#    #+#             */
-/*   Updated: 2025/04/15 11:26:37 by sgoldenb         ###   ########.fr       */
+/*   Updated: 2025/04/15 10:50:10 by sgoldenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include "ClapTrap.hpp"
 
-class ScavTrap : virtual public ClapTrap {
+class ScavTrap : public ClapTrap {
 
 public:
   ScavTrap(void);

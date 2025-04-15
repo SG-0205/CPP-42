@@ -6,7 +6,7 @@
 /*   By: sgoldenb <sgoldenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:41:48 by sgoldenb          #+#    #+#             */
-/*   Updated: 2025/04/11 21:25:11 by sgoldenb         ###   ########.fr       */
+/*   Updated: 2025/04/15 10:45:12 by sgoldenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ private:
   const int &_getPoints(const pointsType &type) const;
 
 public:
+  ClapTrap(void);
   ClapTrap(const std::string &name);
   ClapTrap(const ClapTrap &other);
   ClapTrap &operator=(const ClapTrap &other);
-  ~ClapTrap() {}
+  virtual ~ClapTrap(void);
 
   void attack(const std::string &target);
   void takeDamage(unsigned int amount);
