@@ -22,6 +22,8 @@ bool utils::is_numbers(const std::string &input) {
 }
 
 bool utils::valid_phone_number(const std::string &phone_number) {
+  if (std::cin.eof())
+    return (true);
   if (phone_number.empty())
     return (false);
   else if (phone_number[0] == '+' &&

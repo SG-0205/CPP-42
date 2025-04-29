@@ -25,23 +25,29 @@ int main(void) {
 
   book = PhoneBook();
   std::cout << "PhoneBook> ";
-  while (std::getline(std::cin, buffer) &&
+  while (!std::cin.eof() && std::getline(std::cin, buffer) &&
          strcmp(buffer.c_str(), "EXIT") != 0) {
+
     if (strcmp(buffer.c_str(), "ADD") == 0) {
+
       new_fields = ask_contact_details();
+
       try {
         book.addContact(new_fields);
       } catch (const std::invalid_argument &err) {
         std::cerr << err.what() << std::endl;
       }
+
       delete[] new_fields;
     } else if (strcmp(buffer.c_str(), "SEARCH") == 0) {
+
       try {
         search_contact_in_book(book);
       } catch (const std::invalid_argument &err) {
         std::cerr << err.what() << std::endl;
       }
     }
+
     std::cout << "PhoneBook> ";
   }
   return (0);
