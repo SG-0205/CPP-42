@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Form.hpp                                           :+:      :+:    :+:   */
+/*   AForm.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgoldenb <sgoldenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:27:35 by sgoldenb          #+#    #+#             */
-/*   Updated: 2025/04/16 14:14:12 by sgoldenb         ###   ########.fr       */
+/*   Updated: 2025/04/29 13:29:30 by sgoldenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 #include "Bureaucrat.hpp"
 
+#include <cerrno>
+#include <exception>
 #include <ostream>
 #include <string>
 
@@ -29,7 +31,6 @@ private:
   void _checkGrades(void) const;
 
 public:
-  enum actionId { SIGN, EXEC };
   AForm(void);
   AForm(const std::string &name, const unsigned int &sign_minimal_grade,
         const unsigned int &execute_minimal_grade);
@@ -38,7 +39,8 @@ public:
   virtual ~AForm(void);
 
   const std::string &getName(void) const;
-  const unsigned int &getMinimalGrade(const actionId &action) const;
+  const unsigned int &GetMinimalSigningGrade(void) const;
+  const unsigned int &GetMinimalExecutionGrade(void) const;
   const bool &isSigned(void) const;
   void beSigned(const Bureaucrat &bureaucrat);
   virtual void execute(const Bureaucrat &executor) const = 0;
@@ -51,7 +53,7 @@ public:
     GradeTooHighException(void);
     explicit GradeTooHighException(const std::string &message);
     const char *what(void) const throw();
-    ~GradeTooHighException(void) throw() {}
+    ~GradeTooHighException(void) throw();
   };
 
   class GradeTooLowException : public std::exception {
@@ -62,7 +64,7 @@ public:
     GradeTooLowException(void);
     explicit GradeTooLowException(const std::string &message);
     const char *what(void) const throw();
-    ~GradeTooLowException(void) throw() {}
+    ~GradeTooLowException(void) throw();
   };
 
   class AlreadySignedException : public std::exception {
@@ -73,7 +75,18 @@ public:
     AlreadySignedException(void);
     explicit AlreadySignedException(const std::string &message);
     const char *what(void) const throw();
-    ~AlreadySignedException(void) throw() {}
+    ~AlreadySignedException(void) throw();
+  };
+
+  class NoSignatureException : public std::exception {
+  private:
+    std::string _message;
+
+  public:
+    NoSignatureException(void);
+    explicit NoSignatureException(const std::string &message);
+    const char *what(void) const throw();
+    ~NoSignatureException(void) throw();
   };
 };
 

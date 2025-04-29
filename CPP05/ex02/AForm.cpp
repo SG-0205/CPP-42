@@ -1,7 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Form.cpp                                           :+:      :+:    :+:   */
+/*                                                        :::      ::::::   */
+/*   AForm::.cpp                                           :+:      :+:    :+:
+ */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgoldenb <sgoldenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,22 +12,21 @@
 /* ************************************************************************** */
 
 #include "AForm.hpp"
-#include <stdexcept>
 
 void AForm::_checkGrades(void) const {
   if (_sign_minimal_grade < 1)
     throw GradeTooHighException(
-        "Form::_checkGrades: minimal signing grade is too high.");
+        "AForm::_checkGrades: minimal signing grade is too high.");
   else if (_sign_minimal_grade > 150)
     throw GradeTooLowException(
-        "Form::_checkGrades: minimal signing grade is too low.");
+        "AForm::_checkGrades: minimal signing grade is too low.");
 
   if (_execute_minimal_grade < 1)
     throw GradeTooHighException(
-        "Form::_checkGrades: minimal execution grade is too high.");
+        "AForm::_checkGrades: minimal execution grade is too high.");
   else if (_execute_minimal_grade > 150)
     throw GradeTooLowException(
-        "Form::_checkGrades: minimal execution grade is too low");
+        "AForm::_checkGrades: minimal execution grade is too low");
 }
 
 AForm::AForm(void)
@@ -42,8 +42,8 @@ AForm::AForm(const std::string &name, const unsigned int &sign_minimal_grade,
 
 AForm::AForm(const AForm &other)
     : _name(other.getName()), _signed(other.isSigned()),
-      _sign_minimal_grade(other.getMinimalGrade(SIGN)),
-      _execute_minimal_grade(other.getMinimalGrade(EXEC)) {
+      _sign_minimal_grade(other.GetMinimalSigningGrade()),
+      _execute_minimal_grade(other.GetMinimalExecutionGrade()) {
   _checkGrades();
 }
 
@@ -58,78 +58,87 @@ AForm &AForm::operator=(const AForm &other) {
 
 AForm::~AForm(void) {}
 
-const std::string &Form::getName(void) const { return (_name); }
+const std::string &AForm::getName(void) const { return (_name); }
 
-const unsigned int &Form::getMinimalGrade(const actionId &action) const {
-  switch (action) {
-  case (SIGN):
-    return (_sign_minimal_grade);
-    break;
-  case (EXEC):
-    return (_execute_minimal_grade);
-    break;
-  default:
-    throw std::invalid_argument(
-        "Form::getMinimalGrade: invalid action provided.");
-    break;
-  }
-
+const unsigned int &AForm::GetMinimalExecutionGrade(void) const {
   return (_execute_minimal_grade);
 }
 
-const bool &Form::isSigned(void) const { return (_signed); }
+const unsigned int &AForm::GetMinimalSigningGrade(void) const {
+  return (_sign_minimal_grade);
+}
 
-void Form::beSigned(const Bureaucrat &bureaucrat) {
+const bool &AForm::isSigned(void) const { return (_signed); }
+
+void AForm::beSigned(const Bureaucrat &bureaucrat) {
   if (isSigned())
     throw AlreadySignedException(getName() + " is already signed.");
 
   const unsigned int &grade(bureaucrat.getGrade());
-  const unsigned int &minimal(getMinimalGrade(SIGN));
+  const unsigned int &minimal(GetMinimalSigningGrade());
 
   if (grade > minimal)
-    throw GradeTooLowException("Form::beSigned: " + bureaucrat.getName() +
+    throw GradeTooLowException("AForm::beSigned: " + bureaucrat.getName() +
                                "\'s grade is too low to sign the form " +
                                getName());
   else
     _signed = true;
 }
 
-Form::GradeTooHighException::GradeTooHighException(void)
-    : _message("Form: grade too high.") {}
+AForm::GradeTooHighException::GradeTooHighException(void)
+    : _message("AForm:: grade too high.") {}
 
-Form::GradeTooHighException::GradeTooHighException(const std::string &message)
+AForm::GradeTooHighException::GradeTooHighException(const std::string &message)
     : _message(message) {}
 
-const char *Form::GradeTooHighException::what(void) const throw() {
+const char *AForm::GradeTooHighException::what(void) const throw() {
+  return (_message.c_str());
+}
+AForm::GradeTooHighException::~GradeTooHighException(void) throw() {}
+
+AForm::GradeTooLowException::GradeTooLowException(void)
+    : _message("AForm:: grade too low.") {}
+
+AForm::GradeTooLowException::GradeTooLowException(const std::string &message)
+    : _message(message) {}
+
+const char *AForm::GradeTooLowException::what(void) const throw() {
   return (_message.c_str());
 }
 
-Form::GradeTooLowException::GradeTooLowException(void)
-    : _message("Form: grade too low.") {}
+AForm::GradeTooLowException::~GradeTooLowException(void) throw() {}
 
-Form::GradeTooLowException::GradeTooLowException(const std::string &message)
+AForm::AlreadySignedException::AlreadySignedException(void)
+    : _message("AForm:: already signed.") {}
+
+AForm::AlreadySignedException::AlreadySignedException(
+    const std::string &message)
     : _message(message) {}
 
-const char *Form::GradeTooLowException::what(void) const throw() {
+const char *AForm::AlreadySignedException::what(void) const throw() {
   return (_message.c_str());
 }
 
-Form::AlreadySignedException::AlreadySignedException(void)
-    : _message("Form: already signed.") {}
+AForm::AlreadySignedException::~AlreadySignedException(void) throw() {}
 
-Form::AlreadySignedException::AlreadySignedException(const std::string &message)
+AForm::NoSignatureException::NoSignatureException(void)
+    : _message("AForm:: form isn't signed.") {}
+
+AForm::NoSignatureException::NoSignatureException(const std::string &message)
     : _message(message) {}
 
-const char *Form::AlreadySignedException::what(void) const throw() {
+const char *AForm::NoSignatureException::what(void) const throw() {
   return (_message.c_str());
 }
 
-std::ostream &operator<<(std::ostream &out, const Form &form) {
-  const unsigned int &minimal_signing_grade(form.getMinimalGrade(Form::SIGN));
-  const unsigned int &minimal_exec_grade(form.getMinimalGrade(Form::EXEC));
+AForm::NoSignatureException::~NoSignatureException(void) throw() {}
+
+std::ostream &operator<<(std::ostream &out, const AForm &form) {
+  const unsigned int &minimal_signing_grade(form.GetMinimalSigningGrade());
+  const unsigned int &minimal_exec_grade(form.GetMinimalExecutionGrade());
   const std::string &name(form.getName());
 
-  out << "Form " << name << '\n'
+  out << "AForm:: " << name << '\n'
       << '\t' << "Minimal signing grade: " << minimal_signing_grade << '\n'
       << '\t' << "Minimal execution grade : " << minimal_exec_grade
       << std::endl;

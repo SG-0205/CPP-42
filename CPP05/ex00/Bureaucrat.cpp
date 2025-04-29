@@ -55,7 +55,7 @@ const std::string &Bureaucrat::getName(void) const { return (_name); }
 const unsigned int &Bureaucrat::getGrade(void) const { return (_grade); }
 
 void Bureaucrat::incrementGrade(void) {
-  if (getGrade() < 2)
+  if (getGrade() <= 1)
     throw GradeTooHighException(
         "Bureaucrat::incrementGrade: grade is too high to be incremented.");
 
@@ -63,7 +63,7 @@ void Bureaucrat::incrementGrade(void) {
 }
 
 void Bureaucrat::decrementGrade(void) {
-  if (getGrade() > 149)
+  if (getGrade() >= 150)
     throw GradeTooLowException(
         "Bureaucrat::decrementGrade: grade is too low to be decremented");
 

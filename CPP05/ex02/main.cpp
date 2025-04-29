@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
+#include "ShrubberyCreationForm.hpp"
 #include <exception>
 #include <iostream>
 #include <ostream>
@@ -54,18 +55,10 @@ int main(void) {
 
   std::cout << "\n-----EX01-----" << std::endl;
 
-  Form merge("Merging contract", 2, 1);
-  Form meeting_recap("Meeting recap", 50, 50);
-  Form notice("Random notice", 150, 150);
+  ShrubberyCreationForm shrub("test");
 
-  std::cout << merge << '\n' << meeting_recap << '\n' << notice << std::endl;
-
-  ceo.signForm(merge);
-  ceo.signForm(merge);
-  ceo.signForm(notice);
-
-  junior.signForm(meeting_recap);
-  junior.signForm(meeting_recap);
+  shrub.beSigned(cfo);
+  shrub.execute(cfo);
 
   return (0);
 }
