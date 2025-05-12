@@ -9,36 +9,25 @@
 #    Updated: 2025/04/11 13:06:35 by sgoldenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+SRC = main.cpp ClapTrap.cpp
+OBJ = $(SRC:.cpp=.o)
+CC = c++
+RM = rm -f
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 
-NAME = ex00
-
-CXX = c++
-CXXFLAGS = -std=c++98 -Wall -Werror -Wextra
-
-SRC_DIR = ./
-OBJ_DIR = ./obj
-
-SRC = $(wildcard $(SRC_DIR)/*.cpp)
-
-OBJ = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC))
+NAME = ClapTrap00
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $@ $^
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+	$(CC) $(CPPFLAGS) $(OBJ) -o $(NAME)
 
 clean:
-	rm -rf $(OBJ_DIR)
+	$(RM) $(OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
 
-re: fclean all
+re: fclean $(NAME)
 
 .PHONY: all clean fclean re

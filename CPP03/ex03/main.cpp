@@ -17,7 +17,7 @@
 #include <iostream>
 
 int print_usage(void) {
-  std::cerr << "./ClapTrap <name>";
+  std::cerr << "./DiamondTrap <name>";
   return (1);
 }
 
@@ -46,6 +46,7 @@ void test_loop(TypeTrap *to_test, const std::string &source, const int &max_i) {
   assign = copy;
   std::cout << "After assignation:\n";
   assign.printState();
+  std::cout << std::endl;
 }
 
 int main(int argc, char **argv) {
