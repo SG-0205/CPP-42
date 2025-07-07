@@ -24,8 +24,7 @@ DiamondTrap::DiamondTrap(void)
 }
 
 DiamondTrap::DiamondTrap(const std::string &name)
-    : ClapTrap(name + "_clap_name"), ScavTrap(name), FragTrap(name),
-      _name(name) {
+    : ClapTrap(name + "_clap_name"), ScavTrap(), FragTrap(), _name(name) {
   if (name.empty())
     throw std::invalid_argument(
         "DiamondTrap::DiamondTrap(const std::string &): empty name.");
@@ -64,8 +63,8 @@ DiamondTrap &DiamondTrap::operator=(const DiamondTrap &other) {
 }
 
 void DiamondTrap::whoAmI(void) {
-  std::cout << '<' << this->_name << ">: \"My name is " << DiamondTrap::_name
-            << '\"' << std::endl;
+  std::cout << '<' << this->_name << ">: \"My name is " << _getName() << '\"'
+            << std::endl;
 }
 
 void DiamondTrap::attack(const std::string &target) {

@@ -10,25 +10,35 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.cpp Fixed.cpp
-OBJ = $(SRC:.cpp=.o)
-CC = c++
-RM = rm -f
-CPPFLAGS = -Wall -Wextra -Werror -std=c++98
+NAME = ex01
 
-NAME = Fixed01
+CXX = c++
+CXXFLAGS = -std=c++98 -Wall -Werror -Wextra
+
+SRC_DIR = ./
+OBJ_DIR = ./obj
+
+SRC = $(wildcard $(SRC_DIR)/*.cpp)
+
+OBJ = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC))
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CPPFLAGS) $(OBJ) -o $(NAME)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
 clean:
-	$(RM) $(OBJ)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
-	$(RM) $(NAME)
+	rm -f $(NAME)
 
-re: fclean $(NAME)
+re: fclean all
 
 .PHONY: all clean fclean re

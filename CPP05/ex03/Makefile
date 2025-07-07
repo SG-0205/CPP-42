@@ -6,11 +6,11 @@
 #    By: sgoldenb <sgoldenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/01 17:57:15 by sgoldenb          #+#    #+#              #
-#    Updated: 2025/04/30 13:16:51 by sgoldenb         ###   ########.fr        #
+#    Updated: 2025/04/30 19:11:27 by sgoldenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ex02
+NAME = ex03
 
 CXX = c++
 CXXFLAGS = -std=c++98 -Wall -Werror -Wextra

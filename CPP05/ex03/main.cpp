@@ -6,15 +6,13 @@
 /*   By: sgoldenb <sgoldenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:16:05 by sgoldenb          #+#    #+#             */
-/*   Updated: 2025/04/30 13:21:01 by sgoldenb         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:21:02 by sgoldenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "AForm.hpp"
 #include "Bureaucrat.hpp"
-#include "PresidentialPardonForm.hpp"
-#include "RobotomyRequestForm.hpp"
-#include "ShrubberyCreationForm.hpp"
+#include "Intern.hpp"
 #include <exception>
 #include <iostream>
 #include <ostream>
@@ -38,43 +36,36 @@ static void execution_office(const Bureaucrat &executor, AForm &form) {
 }
 
 int main(void) {
-  // Good bureaucrats:
-  ShrubberyCreationForm shrub("ShrubTest");
-  RobotomyRequestForm rob("John");
-  PresidentialPardonForm pres("Bob");
 
-  std::cout << GREEN "Forms after construction:" RESET << '\n';
-  std::cout << shrub << rob << pres << '\n';
+  Intern intern;
 
-  Bureaucrat ceo("Bill", 5);
-  Bureaucrat intern("Bob", 150);
+  Bureaucrat ceo("Bob", 1);
 
-  signing_office(ceo, shrub);
+  // Good form request
+  AForm *shrub = intern.makeForm("shrubbery creation", "ShrubFile");
+  AForm *rob = intern.makeForm("robotomyrequest", "Bill");
+  AForm *pres = intern.makeForm("PresidentialPardon", "Zorg");
 
-  // Tentative de double signature;
-  signing_office(ceo, shrub);
+  std::cout << *shrub << *rob << *pres << std::endl;
 
-  // Tentative de signature non autorisee
-  signing_office(intern, pres);
+  signing_office(ceo, *shrub);
+  signing_office(ceo, *rob);
+  signing_office(ceo, *pres);
+  execution_office(ceo, *shrub);
+  execution_office(ceo, *rob);
+  execution_office(ceo, *pres);
+  // Bad requests
+  AForm *bad1 = intern.makeForm("", "Bob");
+  AForm *bad2 = intern.makeForm("robotomycreation", "");
+  AForm *bad3 = intern.makeForm("wjdoajwdka", "Bob");
 
-  // Tentative d'execution sans signature
-  execution_office(ceo, pres);
+  delete shrub;
+  delete rob;
+  delete pres;
 
-  // Execution valide
-  execution_office(ceo, shrub);
-
-  // Test des resultats des formulaires restants
-
-  signing_office(ceo, pres);
-  execution_office(ceo, pres);
-
-  signing_office(ceo, rob);
-  execution_office(ceo, rob);
-  execution_office(ceo, rob);
-  execution_office(ceo, rob);
-  execution_office(ceo, rob);
-
-  std::cout << shrub << rob << pres << '\n';
+  (void)bad1;
+  (void)bad2;
+  (void)bad3;
 
   return (0);
 }
